@@ -1,13 +1,19 @@
 package com.zezin.workshopmongo.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+//anotacao para dizer que a classe corresponde a uma colecao no mongoDB
+@Document
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Id
     private String id;
     private String name;
     private String email;
