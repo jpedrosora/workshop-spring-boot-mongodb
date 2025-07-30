@@ -1,6 +1,7 @@
 package com.zezin.workshopmongo.resources;
 
 import com.zezin.workshopmongo.domain.User;
+import com.zezin.workshopmongo.dto.UserDTO;
 import com.zezin.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -19,11 +22,13 @@ public class UserResource {
 
     @RequestMapping(method = RequestMethod.GET)
     //objeto sofisticado do spring que encapsula a estrutura necessario para retorna resposta http com possiveis cabecalhos, erros e etc
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserDTO>> findAll() {
         //busca os users no banco de dados e guarda na lista e devolvemos na resposta da requisicao
         List<User> list = service.findAll();
+        //convertendo de User para User DTO
+        List<UserDTO> listDto =  list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
         //ok instancia o responseEntity ja com o codigo HTTP
         //body indentifica o corpo da resposta
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(listDto);
     }
 }
