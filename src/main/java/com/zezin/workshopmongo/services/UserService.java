@@ -31,6 +31,12 @@ public class UserService {
     public User insert(User obj){
         return repo.insert(obj);
     }
+
+    public void delete(String id) {
+        findById(id);
+        repo.deleteById(id);
+    }
+
     //dependendo da situação pra instanciar um user podemos querer acessar o banco de dados e quem ja tem a dependencia do banco de dados é o UserService
     //para ficar uma situção que seja possivel o acesso futuro aos dados vamos colocar o metodo aqui
     public User fromDTO(UserDTO objDTO){
