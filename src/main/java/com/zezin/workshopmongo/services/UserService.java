@@ -1,6 +1,7 @@
 package com.zezin.workshopmongo.services;
 
 import com.zezin.workshopmongo.domain.User;
+import com.zezin.workshopmongo.dto.UserDTO;
 import com.zezin.workshopmongo.repository.UserRepository;
 import com.zezin.workshopmongo.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,14 @@ public class UserService {
         Optional<User> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
+
+    public User insert(User obj){
+        return repo.insert(obj);
+    }
+    //dependendo da situação pra instanciar um user podemos querer acessar o banco de dados e quem ja tem a dependencia do banco de dados é o UserService
+    //para ficar uma situção que seja possivel o acesso futuro aos dados vamos colocar o metodo aqui
+    public User fromDTO(UserDTO objDTO){
+        return new User(objDTO.getId(), objDTO.getName(),  objDTO.getEmail());
+    }
+
 }
