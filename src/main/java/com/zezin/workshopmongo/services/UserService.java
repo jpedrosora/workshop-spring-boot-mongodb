@@ -28,7 +28,7 @@ public class UserService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
-    public User insert(User obj){
+    public User insert(User obj) {
         return repo.insert(obj);
     }
 
@@ -37,10 +37,23 @@ public class UserService {
         repo.deleteById(id);
     }
 
+    public User update(User obj) {
+        //esse obj ele vai ser os dados enviados na requisition, ainda não tem vinculo com o DB
+        //vamos buscar primeiro o obj no banco de dados, alterar e depois salvar
+        User newObj = findById(obj.getId());
+        updateData(newObj, obj);
+        return repo.save(newObj);
+    }
+
+    private void updateData(User newObj, User obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
+    }
+
     //dependendo da situação pra instanciar um user podemos querer acessar o banco de dados e quem ja tem a dependencia do banco de dados é o UserService
     //para ficar uma situção que seja possivel o acesso futuro aos dados vamos colocar o metodo aqui
-    public User fromDTO(UserDTO objDTO){
-        return new User(objDTO.getId(), objDTO.getName(),  objDTO.getEmail());
+    public User fromDTO(UserDTO objDTO) {
+        return new User(objDTO.getId(), objDTO.getName(), objDTO.getEmail());
     }
 
 }
