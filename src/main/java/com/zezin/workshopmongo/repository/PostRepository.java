@@ -1,11 +1,11 @@
 package com.zezin.workshopmongo.repository;
 
-import com.zezin.workshopmongo.domain.User;
+import com.zezin.workshopmongo.domain.Post;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-//mongorepository precisa do tipo da classe de dominio
+
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
+public interface PostRepository extends MongoRepository<Post, String> {
 
 }
