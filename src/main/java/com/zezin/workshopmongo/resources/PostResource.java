@@ -3,6 +3,7 @@ package com.zezin.workshopmongo.resources;
 import com.zezin.workshopmongo.domain.Post;
 import com.zezin.workshopmongo.domain.User;
 import com.zezin.workshopmongo.dto.UserDTO;
+import com.zezin.workshopmongo.resources.util.URL;
 import com.zezin.workshopmongo.services.PostService;
 import com.zezin.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +28,10 @@ public class PostResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    @RequestMapping(value ="/titlesearch", method  = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text) {
+        text = URL.decodeParam(text);
+        List<Post> list = service.findByTitle(text);
+        return ResponseEntity.ok().body(list);
+    }
 }
