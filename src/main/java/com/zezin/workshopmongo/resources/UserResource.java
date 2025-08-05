@@ -1,5 +1,6 @@
 package com.zezin.workshopmongo.resources;
 
+import com.zezin.workshopmongo.domain.Post;
 import com.zezin.workshopmongo.domain.User;
 import com.zezin.workshopmongo.dto.UserDTO;
 import com.zezin.workshopmongo.services.UserService;
@@ -55,9 +56,15 @@ public class UserResource {
     @RequestMapping(value ="/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody UserDTO objDTO, @PathVariable String id) {
         User obj = service.fromDTO(objDTO);
-        //garantit que o objeto vai ter o ID da requisicao
+        //garantir que o objeto vai ter o ID da requisicao
         obj.setId(id);
         obj = service.update(obj);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value ="/{id}/posts", method  = RequestMethod.GET)
+    public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+        User obj = service.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
     }
 }
