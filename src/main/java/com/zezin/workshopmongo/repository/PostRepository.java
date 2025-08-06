@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,4 +19,8 @@ public interface PostRepository extends MongoRepository<Post, String> {
     List<Post> searchTitle(String title);
 
     List<Post> findByTitleContainingIgnoreCase(String text);
+
+    //buscando uma string que esteja ou no title, body, comments e com um periodo especifico de date
+    @Query("{ $and: [ { date: { $gte: ?1 } }, { date: { $lte: ?2 } }, { $or: [ {'title' : {$regex: ?0, $options :  'i' } }, {'body' : {$regex: ?0, $options :  'i' } }, {'comments.text' : {$regex: ?0, $options :  'i' } } ] } ] }")
+    List<Post> fullSearch(String text, Date minDate,  Date maxDate);
 }
